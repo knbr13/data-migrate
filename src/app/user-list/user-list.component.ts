@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { UserService } from '../core/services/user-service.service';
 
 @Component({
   selector: 'app-user-list',
@@ -16,7 +16,7 @@ export class UserListComponent implements OnInit {
   errorMessage: string = '';
   isLoading: boolean = false;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
     this.fetchUsers(this.currentPage);
@@ -27,9 +27,8 @@ export class UserListComponent implements OnInit {
       this.users = this.cachedUsers[page];
       this.currentPage = page;
     } else {
-      const apiUrl = `https://reqres.in/api/users?page=${page}`;
       this.isLoading = true;
-      this.http.get(apiUrl).subscribe({
+      this.userService.getUsers(page).subscribe({
         next: (data: any) => {
           this.users = data.data;
           this.currentPage = data.page;
@@ -80,8 +79,7 @@ export class UserListComponent implements OnInit {
   }
 
   fetchUserById(userId: number): void {
-    const apiUrl = `https://reqres.in/api/users/${userId}`;
-    this.http.get(apiUrl).subscribe({
+    this.userService.getUserById(userId).subscribe({
       next: (data: any) => {
         this.users = [data.data];
       },
