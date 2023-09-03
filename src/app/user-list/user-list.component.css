@@ -50,3 +50,8 @@ header {
   display: inline-block;
   vertical-align: middle;
 }
+
+.error-message {
+  color: red;
+  margin-top: 8px;
+}

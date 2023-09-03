@@ -13,6 +13,8 @@ export class UserListComponent implements OnInit {
   currentPage: number = 1;
   totalPages: number = 1;
   cachedUsers: any[] = [];
+  errorMessage: string = '';
+  isLoading: boolean = false;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -26,11 +28,21 @@ export class UserListComponent implements OnInit {
       this.currentPage = page;
     } else {
       const apiUrl = `https://reqres.in/api/users?page=${page}`;
-      this.http.get(apiUrl).subscribe((data: any) => {
-        this.users = data.data;
-        this.currentPage = data.page;
-        this.totalPages = data.total_pages;
-        this.cachedUsers[page] = data.data;
+      this.isLoading = true;
+      this.http.get(apiUrl).subscribe({
+        next: (data: any) => {
+          this.users = data.data;
+          this.currentPage = data.page;
+          this.totalPages = data.total_pages;
+          this.cachedUsers[page] = data.data;
+        },
+        error: (error) => {
+          this.errorMessage = 'Error fetching users.';
+          this.users = [];
+        },
+        complete: () => {
+          this.isLoading = false;
+        },
       });
     }
   }
@@ -49,5 +61,34 @@ export class UserListComponent implements OnInit {
     if (this.currentPage < this.totalPages) {
       this.fetchUsers(this.currentPage + 1);
     }
+  }
+
+  onSearchInputChange(): void {
+    const userId = +this.searchQuery;
+    if (Number(userId)) {
+      this.errorMessage = '';
+      this.fetchUserById(userId);
+    } else {
+      this.errorMessage = '';
+      if (this.searchQuery === '') {
+        this.fetchUsers(1);
+      } else {
+        this.errorMessage = 'Invalid user ID. Please enter a number.';
+        this.users = [];
+      }
+    }
+  }
+
+  fetchUserById(userId: number): void {
+    const apiUrl = `https://reqres.in/api/users/${userId}`;
+    this.http.get(apiUrl).subscribe({
+      next: (data: any) => {
+        this.users = [data.data];
+      },
+      error: (error) => {
+        this.errorMessage = 'User not found.';
+        this.users = [];
+      },
+    });
   }
 }

@@ -4,7 +4,9 @@
     type="text"
     [(ngModel)]="searchQuery"
     placeholder="Search by User ID"
+    (input)="onSearchInputChange()"
   />
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 </header>
 
 <div class="user-list-container">
@@ -26,4 +28,5 @@
   <button (click)="nextPage()" [disabled]="currentPage === totalPages">
     Next
   </button>
+  <div *ngIf="isLoading" class="loading-indicator">Loading...</div>
 </div>
