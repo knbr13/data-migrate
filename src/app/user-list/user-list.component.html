@@ -1,0 +1,21 @@
+<header>
+  <h1>User List</h1>
+  <input
+    type="text"
+    [(ngModel)]="searchQuery"
+    placeholder="Search by User ID"
+  />
+</header>
+<div class="user-list-container">
+  <div
+    *ngFor="let user of users"
+    class="user-card"
+    (click)="navigateToUserDetails(user.id)"
+  >
+    <img [src]="user.avatar" alt="User Avatar" />
+    <div class="user-info">
+      <p>{{ user.first_name }} {{ user.last_name }}</p>
+      <p>ID: {{ user.id }}</p>
+    </div>
+  </div>
+</div>
