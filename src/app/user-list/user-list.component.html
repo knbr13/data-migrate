@@ -6,6 +6,7 @@
     placeholder="Search by User ID"
   />
 </header>
+
 <div class="user-list-container">
   <div
     *ngFor="let user of users"
@@ -18,4 +19,11 @@
       <p>ID: {{ user.id }}</p>
     </div>
   </div>
+</div>
+
+<div class="pagination-controls">
+  <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+  <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+    Next
+  </button>
 </div>
