@@ -55,3 +55,10 @@ header {
   color: red;
   margin-top: 8px;
 }
+
+.loading-indicator {
+  text-align: center;
+  padding: 8px;
+  font-weight: bold;
+  color: #007bff;
+}

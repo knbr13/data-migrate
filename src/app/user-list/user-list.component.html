@@ -9,6 +9,8 @@
   <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 </header>
 
+<div *ngIf="isLoading" class="loading-indicator">Loading...</div>
+
 <div class="user-list-container">
   <div
     *ngFor="let user of users"
