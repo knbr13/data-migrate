@@ -12,6 +12,7 @@ export class UserListComponent implements OnInit {
   searchQuery: string = '';
   currentPage: number = 1;
   totalPages: number = 1;
+  cachedUsers: any[] = [];
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -20,12 +21,18 @@ export class UserListComponent implements OnInit {
   }
 
   fetchUsers(page: number): void {
-    const apiUrl = `https://reqres.in/api/users?page=${page}`;
-    this.http.get(apiUrl).subscribe((data: any) => {
-      this.users = data.data;
-      this.currentPage = data.page;
-      this.totalPages = data.total_pages;
-    });
+    if (this.cachedUsers[page]) {
+      this.users = this.cachedUsers[page];
+      this.currentPage = page;
+    } else {
+      const apiUrl = `https://reqres.in/api/users?page=${page}`;
+      this.http.get(apiUrl).subscribe((data: any) => {
+        this.users = data.data;
+        this.currentPage = data.page;
+        this.totalPages = data.total_pages;
+        this.cachedUsers[page] = data.data;
+      });
+    }
   }
 
   navigateToUserDetails(userId: number): void {
