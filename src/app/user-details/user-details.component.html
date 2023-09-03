@@ -1,1 +1,10 @@
-<p>user-details works!</p>
+<div class="user-details-container">
+  <div class="user-details-card">
+    <img [src]="user.avatar" alt="User Avatar" />
+    <div class="user-info">
+      <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+      <p>ID: {{ user.id }}</p>
+    </div>
+  </div>
+  <button (click)="goBack()">Back</button>
+</div>
