@@ -19,7 +19,7 @@ export class UserListComponent implements OnInit {
   fetchUsers(page: number): void {
     const apiUrl = `https://reqres.in/api/users?page=${page}`;
     this.http.get(apiUrl).subscribe((data: any) => {
-      this.users = data.data; // Assuming the user data is under the 'data' property
+      this.users = data.data;
     });
   }
 

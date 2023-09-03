@@ -27,7 +27,7 @@ export class UserDetailsComponent implements OnInit {
   fetchUserDetails(id: number): void {
     const apiUrl = `https://reqres.in/api/users/${id}`;
     this.http.get(apiUrl).subscribe((data: any) => {
-      this.user = data.data; // Assuming the user data is under the 'data' property
+      this.user = data.data;
     });
   }
 
