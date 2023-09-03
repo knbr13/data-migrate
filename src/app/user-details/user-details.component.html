@@ -1,9 +1,9 @@
 <div class="user-details-container">
   <div class="user-details-card">
-    <img [src]="user.avatar" alt="User Avatar" />
+    <img [src]="user?.avatar" alt="User Avatar" />
     <div class="user-info">
-      <h2>{{ user.first_name }} {{ user.last_name }}</h2>
-      <p>Email: {{ user.email }}</p>
+      <h2>{{ user?.first_name }} {{ user?.last_name }}</h2>
+      <p>Email: {{ user?.email }}</p>
     </div>
   </div>
   <button class="back-button" (click)="goBack()">Back</button>
