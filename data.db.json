@@ -1,0 +1,38 @@
+{
+    "users": [
+        {
+            "username": "john_doe",
+            "email": "john@example.com",
+            "age": 25
+        },
+        {
+            "username": "jane_smith",
+            "email": "jane@example.com",
+            "age": 30
+        }
+    ],
+    "products": [
+        {
+            "name": "Laptop",
+            "price": 1200.00,
+            "stock": 50
+        },
+        {
+            "name": "Smartphone",
+            "price": 699.99,
+            "stock": 100
+        }
+    ],
+    "orders": [
+        {
+            "user_id": 1,
+            "product_id": 2,
+            "quantity": 2
+        },
+        {
+            "user_id": 2,
+            "product_id": 1,
+            "quantity": 1
+        }
+    ]
+}
