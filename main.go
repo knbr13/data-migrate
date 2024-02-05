@@ -7,6 +7,7 @@ import (
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
+	orderedmap "github.com/wk8/go-ordered-map/v2"
 )
 
 func main() {
@@ -47,20 +48,20 @@ func main() {
 			fmt.Fprintf(os.Stderr, "error: %s\n", err.Error())
 			os.Exit(1)
 		}
-		m := make(map[string]any)
+		m := orderedmap.New[string, any]()
 		err = json.Unmarshal(data, &m)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "error: %s\n", err.Error())
 			os.Exit(1)
 		}
 
-		for table, data := range m {
-			switch d := data.(type) {
+		for pair := m.Oldest(); pair != nil; pair = pair.Next() {
+			switch d := pair.Value.(type) {
 			case []any:
 				for _, obj := range d {
 					switch v := obj.(type) {
 					case map[string]any:
-						query, values := buildSQLInsertQueryFromMap(v, table)
+						query, values := buildSQLInsertQueryFromMap(v, pair.Key)
 						if useTx {
 							err = txInsert(tx, query, values...)
 						} else {
@@ -82,7 +83,7 @@ func main() {
 					}
 				}
 			case map[string]any:
-				query, values := buildSQLInsertQueryFromMap(d, table)
+				query, values := buildSQLInsertQueryFromMap(d, pair.Key)
 				if useTx {
 					err = txInsert(tx, query, values...)
 				} else {
