@@ -1,8 +1,12 @@
 package main
 
 import (
+	"database/sql"
 	"flag"
+	"fmt"
 	"os"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var dsn, path string
@@ -17,5 +21,18 @@ func init() {
 	if dsn == "" || path == "" {
 		flag.PrintDefaults()
 		os.Exit(0)
+	}
+
+	var err error
+	db, err = sql.Open("mysql", dsn)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "error creating database connection: %s\n", err.Error())
+		os.Exit(1)
+	}
+
+	err = db.Ping()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "error creating database connection: %s\n", err.Error())
+		os.Exit(1)
 	}
 }
