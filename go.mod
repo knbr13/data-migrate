@@ -1,3 +1,3 @@
-module hello
+module data-migrate
 
-go 1.21.1
+go 1.21.6
