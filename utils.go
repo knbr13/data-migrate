@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"os"
+	"strings"
 )
 
 func isDir(path string) (bool, error) {
@@ -10,4 +12,10 @@ func isDir(path string) (bool, error) {
 		return false, err
 	}
 	return info.IsDir(), nil
+}
+
+func buildSqlInsertQuery(tableName string, columns []string) string {
+	s := strings.Join(columns, ", ")
+	qs := strings.TrimSuffix(strings.Repeat("?, ", len(columns)), ", ")
+	return fmt.Sprintf("INSERT INTO %s (%s) VALUES (%s);", tableName, s, qs)
 }
